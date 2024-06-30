@@ -1,6 +1,5 @@
 package com.geogad.aisecuritytest
 
-import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.GenerativeModel
@@ -11,19 +10,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class BakingViewModel : ViewModel() {
+class PromptViewModel : ViewModel() {
     private val _uiState: MutableStateFlow<UiState> =
         MutableStateFlow(UiState.Initial)
     val uiState: StateFlow<UiState> =
         _uiState.asStateFlow()
 
     private val generativeModel = GenerativeModel(
-        modelName = "gemini-1.5-pro", // "gemini-pro-vision",
+        modelName = "gemini-1.5-pro",
         apiKey = BuildConfig.apiKey
     )
 
     fun sendPrompt(
-       // bitmap: Bitmap,
         prompt: String
     ) {
         _uiState.value = UiState.Loading
@@ -32,7 +30,6 @@ class BakingViewModel : ViewModel() {
             try {
                 val response = generativeModel.generateContent(
                     content {
-                     //   image(bitmap)
                         text(prompt)
                     }
                 )
